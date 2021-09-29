@@ -10,39 +10,60 @@ public class CameraFollow : MonoBehaviour
     public bool changeAngle = false;
 
     private Vector3 initialPos;
+    private float yPos;
 
     private void Start()
     {
         initialPos = transform.position;
-        //initialPos.y += 10;
+        
+        yPos = (car.position - transform.position).magnitude;
+        StartCoroutine("FollowCar");
     }
-    private void FixedUpdate()
+    
+    IEnumerator FollowCar()
     {
-        if (!changeAngle)
+        Debug.Log("Follow Car");
+        while (true)
         {
-            transform.position = new Vector3(car.position.x, transform.position.y, car.position.z);
+            
+            transform.position = new Vector3(car.position.x, car.position.y+yPos, car.position.z);
+            yield return new WaitForSeconds(.001f);
+        }
+        
+    }
+    /*IEnumerator LookReturn()
+    {
+        Debug.Log("look return");
+        Vector3 lookPos = new Vector3(transform.position.x,transform.position.y+5,transform.position.z);
+        //transform.position = Vector3.MoveTowards(transform.position, lookPos, 0.1f * Time.deltaTime);
+        *//*while (Vector3.Distance(car.position, initialPos) > 1f)
+        {
+            Quaternion.LookRotation(car.position);
+            yield return new WaitForSeconds(.01f);
+        }*//*
+        if(Vector3.Distance(car.position, initialPos) < 2f)
+        {
+            ChangeValueForAngle();
+        }
+        yield return new WaitForSeconds(.01f);
+    }*/
+    /*public void ChangeValueForAngle()
+    {
+        Debug.Log(changeAngle);
+        changeAngle = !changeAngle;
+
+        if (changeAngle)
+        {
+            StopCoroutine("LookReturn");
+            StopAllCoroutines();
+            StartCoroutine("FollowCar");
+
         }
         else
         {
-            if (Vector3.Distance(transform.position, initialPos) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, initialPos, 7f * Time.deltaTime);
-                GetComponent<Camera>().fieldOfView = 60;
-            }
-            else
-            {
-                //GetComponent<Camera>().fieldOfView = 31;
-                //ChangeValueForAngle();
-            }
-            
-            //transform.position = new Vector3(car.position.x, transform.position.y, car.position.z);
+            StopCoroutine("FollowCar");
+            StartCoroutine("LookReturn");
         }
-        //transform.rotation = 
 
-    }
-
-    public void ChangeValueForAngle()
-    {
-        changeAngle = !changeAngle;
-    }
+    }*/
 }
