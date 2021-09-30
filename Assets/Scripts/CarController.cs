@@ -10,7 +10,9 @@ public class CarController : MonoBehaviour
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
 
+    [SerializeField]
     private float horizontalInput;
+    [SerializeField]
     private float accelerateInput;
     private float currentSteerAngle;
     private float currentBreakForce;
@@ -54,7 +56,7 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GetInput();
+        //GetInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
@@ -130,6 +132,16 @@ public class CarController : MonoBehaviour
         }
         isBreaking = Input.GetKey(KeyCode.Space);
         
+    }
+    public void GetExternalInputs(float forwardAxis, float turnAxis)
+    {
+        accelerateInput = forwardAxis;
+        horizontalInput = turnAxis;
+    }
+
+    public float GetSpeed()
+    {
+        return GetComponent<Rigidbody>().velocity.sqrMagnitude;
     }
 
 }

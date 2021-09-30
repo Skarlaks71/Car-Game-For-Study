@@ -16,7 +16,6 @@ public class ReturnEffect : MonoBehaviour
     public float speedReturn;
     public float speedRotReturn;
     public LineRenderer wayLine;
-    public Transform cubeR;
     public GameObject camera;
     public Transform anchorPoint1;
     public Transform anchorPoint2;
